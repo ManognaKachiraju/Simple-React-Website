@@ -1,0 +1,20 @@
+pipeline{
+    agent any
+    stage('Docker Image Build'){
+        steps{
+            bat 'docker build -t manokac55/library-app:latest .'
+        }
+    }
+    stage('Uploading docker image to Dockerhub'){
+        steps{
+            bat 'docker push manokac55/library-app:latest'
+        }
+        
+    }
+    stage('Running docker image'){
+        steps{
+            bat 'docker run -d -p 3000:3000 --name Manogna manokac55/library-app:latest'
+        }
+    }
+
+}
