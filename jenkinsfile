@@ -1,5 +1,6 @@
 pipeline{
     agent any
+    stages {
     stage('Docker Image Build'){
         steps{
             bat 'docker build -t manokac55/library-app:latest .'
@@ -16,5 +17,6 @@ pipeline{
             bat 'docker run -d -p 3000:3000 --name Manogna manokac55/library-app:latest'
         }
     }
+}
 
 }
