@@ -40,13 +40,16 @@ pipeline{
             }
             bat 'az aks get-credentials --resource-group simple-react-app --name library-app --overwrite-existing'
             bat 'kubectl apply -f deployment.yaml'
+            timeout(time:1,unit:"MINUTES"){
+                bat 'kubectl get services'
+            }
         }
 
     }
     stage('Terraform destroy'){
         steps{
             input message:'Do u want to destroy aks deployment?',ok:'yes'
-            bat 'cd tf-aks && terraform destroy'
+            bat 'cd tf-aks && terraform destroy --auto-approve'
         }
     }
 }
