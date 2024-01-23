@@ -17,6 +17,38 @@ pipeline{
             bat 'docker run -d -p 3000:3000 --name Manogna manokac55/library-app:latest'
         }
     }
+    stage('Terraform init')
+    {
+        steps{
+            bat 'cd tf-aks && terraform init'
+        }
+    }
+    stage('Terraform plan'){
+        steps{
+            bat 'cd tf-aks && terraform plan'
+        }
+    }
+    stage('Terraform apply'){
+        steps{
+            bat 'cd tf-aks && terraform apply --auto-approve'
+        }
+    }
+    stage('Deployment'){
+        steps{
+            timeout(time:15,units:"MINUTES"){
+                input message:'Do u want to approve?',ok: 'yes'
+            }
+            bat 'az aks get-credentials --resource-group simple-react-app --name library-app --overwrite-existing'
+            bat 'kubectl apply -f deployment.yaml'
+        }
+
+    }
+    stage('Terraform destroy'){
+        steps{
+            input message:'Do u want to destroy aks deployment?',ok:'yes'
+            bat 'cd tf-aks && terraform destroy'
+        }
+    }
 }
 
 }
