@@ -14,7 +14,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg1" {
-  name     = "simple_react_app"
+  name     = "simple-react-app"
   location = "West Europe"
 }
 
