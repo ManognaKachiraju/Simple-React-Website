@@ -35,7 +35,7 @@ pipeline{
     }
     stage('Deployment'){
         steps{
-            timeout(time:15,units:"MINUTES"){
+            timeout(time:15,unit:"MINUTES"){
                 input message:'Do u want to approve?',ok: 'yes'
             }
             bat 'az aks get-credentials --resource-group simple-react-app --name library-app --overwrite-existing'
